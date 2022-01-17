@@ -6,38 +6,27 @@
  */
 export function sortStrings(arr, param = "asc") {
     let result = [];
+    let arrCopy = arr.slice();
 
     switch (param) {
         case "asc":
-            result = sortArray(arr);
+            result = arrCopy.sort(compareFunction);
             break;
         case "desc":
-            result = sortArray(arr).reverse();
+            result = arrCopy.sort(reverseCompareFunction);
             break;
 
         default:
-            result = sortArray(arr);
+            result = arrCopy.sort(compareFunction);
     }
 
     return result;
 }
 
-function sortArray(array){
-    let result = array.slice();
+function compareFunction(a, b){
+    return a.localeCompare(b, ['ru', 'en'], {caseFirst: 'upper'});
+}
 
-    for(let i = 0; i < result.length; i++){
-        for (let j = 0; j < result.length-1-i; j++) {
-            if(j < result.length){
-                if(result[j].localeCompare(result[j+1], ['ru', 'en'], {caseFirst: 'upper'}) > 0){
-                    let iElement = result[j];
-                    let nextElement = result[j+1];
-                    result[j] = nextElement;
-                    result[j+1] = iElement;
-                }
-            }
-            
-        }
-    }
-
-    return result;
+function reverseCompareFunction(a, b){
+    return b.localeCompare(a, ['ru', 'en'], {caseFirst: 'upper'});
 }
