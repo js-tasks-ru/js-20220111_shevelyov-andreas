@@ -28,7 +28,7 @@ function sortArray(array){
     for(let i = 0; i < result.length; i++){
         for (let j = 0; j < result.length-1-i; j++) {
             if(j < result.length){
-                if(result[j].localeCompare(result[j+1], 'ru-RU-u-kf-upper') > 0){
+                if(result[j].localeCompare(result[j+1], ['ru', 'en'], {caseFirst: 'upper'}) > 0){
                     let iElement = result[j];
                     let nextElement = result[j+1];
                     result[j] = nextElement;
