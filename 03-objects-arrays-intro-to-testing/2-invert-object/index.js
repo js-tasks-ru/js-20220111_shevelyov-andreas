@@ -11,17 +11,13 @@ export function invertObj(obj) {
     if(Object.keys(obj).length === 0) {
         return {};
     }
+    const result = {};
 
-    let result = {};
-    const revArr = [];
-    const arr = Object.entries(obj);
-
-    for(let i = 0; i < arr.length; i++){
-        revArr.push(arr[i].reverse());
+    for(const key in obj){
+        if(obj.hasOwnProperty(key)){
+            result[obj[key]] = key;
+        }
     }
-
-    const map = new Map(revArr);
-    result = Object.fromEntries(map.entries());
 
     return result;
 }

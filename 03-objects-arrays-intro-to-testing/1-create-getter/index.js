@@ -11,12 +11,10 @@ export function createGetter(path) {
             return;
         }
 
-        let result = "";
-        let objCopy = {...obj};
+        let result = {...obj};
 
         for(let i = 0; i < pathArray.length; i++){
-            result = objCopy[pathArray[i]];
-            objCopy = result;
+            result = result[pathArray[i]];
         }
 
         return result;

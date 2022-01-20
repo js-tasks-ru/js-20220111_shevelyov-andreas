@@ -16,11 +16,11 @@ export function trimSymbols(string, size) {
     const array = string.split("");
     let count;
     let resultString = "";
-    let ISymbol;
+    let iSymbol;
 
     for(let i = 0; i < array.length; i++){
-        if(ISymbol != array[i]){
-            ISymbol = array[i];
+        if(iSymbol != array[i]){
+            iSymbol = array[i];
             count = 1;
         }
         
