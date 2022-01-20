@@ -4,5 +4,20 @@
  * @returns {object | undefined} - returns new object or undefined if nothing did't pass
  */
 export function invertObj(obj) {
+    if(obj === undefined){
+        return;
+    }
 
+    if(Object.keys(obj).length === 0) {
+        return {};
+    }
+    const result = {};
+
+    for(const key in obj){
+        if(obj.hasOwnProperty(key)){
+            result[obj[key]] = key;
+        }
+    }
+
+    return result;
 }
