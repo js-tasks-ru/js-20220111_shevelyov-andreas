@@ -7,12 +7,12 @@ export default class ColumnChart {
     chartHeight = 50;
     subElements;
 
-    constructor(obj = {url: "", range: {}, label: "", link: "", formatHeading: ()=>{}}) {
-      this.url = new URL(obj.url, BACKEND_URL);
-      this.range = obj.range || {};
-      this.label = obj.label || "";
-      this.link = obj.link || "";
-      this.formatHeading = obj.formatHeading;
+    constructor({url = "", range = {}, label = "", link = "", formatHeading = ()=>{}} = {}) {
+      this.url = new URL(url, BACKEND_URL);
+      this.range = range;
+      this.label = label;
+      this.link = link;
+      this.formatHeading = formatHeading;
 
 
       this.render();
@@ -46,18 +46,12 @@ export default class ColumnChart {
     }
 
     getChartChildren(data) {
-      let result = "";
       if (data.length > 0) {
-        for (let i = 0; i < data.length; i++) {
-          const maxValue = Math.max(...data);
-          const scale = this.chartHeight / maxValue;
-
-          result += `<div style='--value: ${String(Math.floor(data[i] * scale))}' data-tooltip='${(data[i] / maxValue * 100).toFixed(0)}%'></div> 
+        return data.map((currentValue) => {
+          return `<div style='--value: ${String(Math.floor(currentValue * this.scale))}' data-tooltip='${(currentValue / this.maxValue * 100).toFixed(0)}%'></div>
           `;
-        }
+        }).join('');
       }
-
-      return result;
     }
 
     getSubElements() {
@@ -89,13 +83,15 @@ export default class ColumnChart {
       const dataObj = await this.loadData(dateFrom, dateTo);
 
       if (dataObj && Object.values(dataObj).length) {
-        let data = [];
+        const data = [];
         for (let key in dataObj) {
           data.push(dataObj[key]);
         }
 
         if (data.length > 0) {
           this.value = data.reduce((previousValue, currentValue) => previousValue + currentValue);
+          this.maxValue = Math.max(...data);
+          this.scale = this.chartHeight / this.maxValue;
 
           this.subElements.body.innerHTML = this.getChartChildren(data);
           this.subElements.header.innerHTML = this.getValue();
